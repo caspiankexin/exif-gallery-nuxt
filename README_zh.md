@@ -102,6 +102,31 @@ pnpm dev
 }
 ```
 
+#### 步骤 2.5：初始化数据库
+
+**重要**：Cloudflare D1 数据库在构建时无法连接数据库，迁移**不会自动运行**。您必须手动运行迁移来创建表结构。
+
+以下是几种运行迁移的方法：
+
+**方法 1：使用 GitHub Actions（推荐，自动化）**
+
+项目已包含 `.github/workflows/migrate.yml` 文件，您可以：
+
+1. 在 GitHub 仓库设置中添加以下 secrets：
+   - `CLOUDFLARE_ACCOUNT_ID` - 您的 Cloudflare 账户 ID（在 Cloudflare Dashboard 右侧可看到）
+   - `CLOUDFLARE_API_TOKEN` - 具有 D1 编辑权限的 API Token（在 Cloudflare Dashboard → My Profile → API Tokens 中创建）
+
+2. 推送代码到 `main` 分支，或手动在 GitHub Actions 页面触发 `Database Migration` workflow
+
+> **重要**：`wrangler d1 migrations apply` 命令是**幂等的**，只会执行**未应用的迁移**。即使每次部署都运行这个命令，如果迁移文件没有变化，它也会安全地跳过已应用的迁移，不会重复执行或导致错误。
+
+**方法 2：使用 Wrangler CLI（需要本地 Node.js）**
+
+```bash
+# 在远程 D1 数据库上执行迁移
+npx wrangler d1 migrations apply exif-gallery-nuxt --remote
+```
+
 #### 步骤 3：通过 Cloudflare Dashboard 部署
 
 1. 前往 **Workers & Pages** → **Create application** → **Connect to Git**

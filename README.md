@@ -102,6 +102,31 @@ Update `wrangler.jsonc` with your Cloudflare resource IDs:
 }
 ```
 
+#### Step 2.5: Initialize Database
+
+**Important**: Cloudflare D1 database cannot be connected during build, so migrations are **not automatically applied**. You must manually run migrations to create the table structure.
+
+Here are several ways to run migrations:
+
+**Method 1: Using GitHub Actions (Recommended, Automated)**
+
+The project includes a `.github/workflows/migrate.yml` file. You can:
+
+1. Add the following secrets in your GitHub repository settings:
+   - `CLOUDFLARE_ACCOUNT_ID` - Your Cloudflare account ID (visible in Cloudflare Dashboard)
+   - `CLOUDFLARE_API_TOKEN` - API token with D1 edit permissions (create at Cloudflare Dashboard → My Profile → API Tokens)
+
+2. Push code to the `main` branch, or manually trigger the `Database Migration` workflow in GitHub Actions
+
+> **Important**: The `wrangler d1 migrations apply` command is **idempotent** and will only execute **unapplied migrations**. Even if you run this command on every deployment, if the migration files haven't changed, it will safely skip already-applied migrations without duplication or errors.
+
+**Method 2: Using Wrangler CLI (Requires Local Node.js)**
+
+```bash
+# Apply migrations to remote D1 database
+npx wrangler d1 migrations apply exif-gallery-nuxt --remote
+```
+
 #### Step 3: Deploy via Cloudflare Dashboard
 
 1. Go to **Workers & Pages** → **Create application** → **Connect to Git**
