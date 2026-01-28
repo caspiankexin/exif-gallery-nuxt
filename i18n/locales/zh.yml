@@ -8,6 +8,8 @@ button:
   edit: 编辑
   delete: 删除
   view_photo: 查看图片详情
+  cancel: 取消
+  confirm_delete: 确认删除
 header:
   github: 在 GitHub 上查看项目
   admin: 管理面板
@@ -128,3 +130,5 @@ ai:
   caption: 用不超过25个字描述图片要点，无需标点符号
   tags: 最多3个关键词标签，用于描述主要元素（避免形容词和副词）
   semantic: 简要直接地描述图片内容，无需引导性语句
+toast:
+  delete_success: 照片已成功删除

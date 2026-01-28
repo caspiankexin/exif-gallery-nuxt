@@ -22,8 +22,9 @@ const photoWithExif = computed(() => photo.value.make || photo.value.model || ph
 const isMini = computed(() => mdScreen.value && mini)
 
 const { deletingPhoto, deletePhoto: _deletePhoto } = useDeletePhoto()
+const showDeletePopover = ref(false)
 function deletePhoto(id: string) {
-  _deletePhoto(id).then(() => emit('deleted', id))
+  _deletePhoto(id).then(() => emit('deleted', id)).finally(() => showDeletePopover.value = false)
 }
 </script>
 
@@ -53,13 +54,18 @@ function deletePhoto(id: string) {
               icon="i-lucide-edit text-muted-foreground"
             />
           </EditPhotoDialog>
-          <TooltipIconButton
+          <DeleteConfirmPopover
             v-if="loggedIn"
+            v-model:open="showDeletePopover"
             :loading="deletingPhoto === photo.id"
-            :label="$t('button.delete')"
-            icon="i-lucide-trash text-muted-foreground"
-            @click="deletePhoto(photo.id)"
-          />
+            @confirm="loggedIn && deletePhoto(photo.id)"
+          >
+            <TooltipIconButton
+              :label="$t('button.delete')"
+              icon="i-lucide-trash text-muted-foreground"
+              @click="showDeletePopover = true"
+            />
+          </DeleteConfirmPopover>
         </div>
       </div>
 

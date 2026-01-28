@@ -8,6 +8,8 @@ button:
   edit: Edit
   delete: Delete
   view_photo: View Photo
+  cancel: Cancel
+  confirm_delete: Confirm Delete
 header:
   github: View project on GitHub
   admin: Admin Panel
@@ -128,3 +130,5 @@ ai:
   caption: Describe key points in no more than 6 words without punctuation
   tags: Up to 3 keyword tags for main elements (avoid adjectives and adverbs)
   semantic: Briefly describe the image content directly without leading phrases
+toast:
+  delete_success: Photo deleted successfully

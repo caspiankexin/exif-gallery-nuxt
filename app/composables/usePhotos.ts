@@ -99,10 +99,13 @@ export function usePhoto(id: MaybeRef<string>) {
 }
 
 export function useDeletePhoto() {
+  const { t } = useI18n()
   const deletingPhoto = ref<string>()
   async function deletePhoto(id: string) {
     deletingPhoto.value = id
-    await $fetch(`/api/photos/${id}`, { method: 'DELETE' }).catch((e) => {
+    await $fetch(`/api/photos/${id}`, { method: 'DELETE' }).then(() => {
+      toast.success(t('toast.delete_success'))
+    }).catch((e) => {
       toast.error('An error occurred', { description: e.message || 'Please try again' })
     }).finally(() => {
       deletingPhoto.value = ''
