@@ -27,6 +27,5 @@ onClickOutside(cardRef, () => {
         </CollapsibleContent>
       </Collapsible>
     </ClientOnly>
-    u
   </Card>
 </template>
