@@ -70,21 +70,32 @@ function deletePhoto(id: string) {
       </div>
 
       <div class="flex text-sm text-muted-foreground md:flex-col lt-md:justify-between md:gap-2">
-        <div class="flex flex-col gap-1">
-          <span>{{ formatDate(photo.takenAt) }}</span>
-          <span v-if="photoWithExif">{{ formatCameraText(photo) }}</span>
-          <NuxtLinkLocale
-            v-for="tag in photo.tags?.split(',') || []"
-            :key="tag"
-            :to="`/tag/${tag}`"
-            class="m--1 w-fit rounded-lg p-1 transition-colors hover:bg-muted"
-          >
-            <Tag :label="tag" />
-          </NuxtLinkLocale>
+        <div class="flex flex-col gap-2">
+          <span class="text-0.8em op-66">{{ formatDate(photo.takenAt) }}</span>
+          <div>
+            <div v-if="photoWithExif" class="flex items-center gap-1">
+              <div class="i-lucide-camera" />
+              <span>{{ formatCameraText(photo) }}</span>
+            </div>
+            <div v-if="photoWithExif" class="flex items-center gap-1">
+              <div class="i-lucide-aperture" />
+              <span>{{ formatLensText(photo) }}</span>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-x-2 gap-y-1 md:flex-col">
+            <NuxtLinkLocale
+              v-for="tag in photo.tags?.split(',') || []"
+              :key="tag"
+              :to="`/tag/${tag}`"
+              class="m--1 w-fit rounded-lg p-1 op-80 transition-colors hover:bg-muted"
+            >
+              <Tag :label="tag" />
+            </NuxtLinkLocale>
+          </div>
         </div>
         <div
           v-if="photoWithExif"
-          class="flex flex-col text-sm text-muted-foreground font-mono"
+          class="flex flex-col text-sm text-muted-foreground leading-tight font-mono"
         >
           <div class="flex gap-2">
             <span>{{ photo.focalLength ? toFixed(photo.focalLength, 1) : '--' }}mm</span>
