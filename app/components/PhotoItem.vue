@@ -74,11 +74,11 @@ function deletePhoto(id: string) {
           <span class="text-0.8em op-66">{{ formatDate(photo.takenAt) }}</span>
           <div>
             <div v-if="photoWithExif" class="flex items-center gap-1">
-              <div class="i-lucide-camera" />
+              <div class="i-lucide-camera op-70" />
               <span>{{ formatCameraText(photo) }}</span>
             </div>
             <div v-if="photoWithExif" class="flex items-center gap-1">
-              <div class="i-lucide-aperture" />
+              <div class="i-lucide-aperture op-70" />
               <span>{{ formatLensText(photo) }}</span>
             </div>
           </div>
@@ -95,21 +95,33 @@ function deletePhoto(id: string) {
         </div>
         <div
           v-if="photoWithExif"
-          class="flex flex-col text-sm text-muted-foreground leading-tight font-mono"
+          class="flex flex-col text-muted-foreground leading-tight font-mono"
         >
-          <div class="flex gap-2">
+          <div class="flex items-baseline">
             <span>{{ photo.focalLength ? toFixed(photo.focalLength, 1) : '--' }}mm</span>
+            <span class="mx-1"> · </span>
             <span
               v-if="photo.focalLengthIn35mmFormat"
               :title="$t('camera_lens.focal_length_35mm')"
-              class="op-50"
+              class="text-xs op-50"
             >{{ photo.focalLengthIn35mmFormat }}mm</span>
           </div>
-          <span
-            v-for="meta, idx in formatExposure(photo)"
-            :key="idx"
-          >{{ meta }}</span>
-          <span>{{ photo.exposureCompensation ? `${photo.exposureCompensation > 0 ? '+' : ''}${photo.exposureCompensation.toFixed(1)}ev` : '0ev' }}</span>
+          <div class="flex items-baseline">
+            <span class="text-1.1em op-60">ƒ</span>
+            <span>/{{ photo.fNumber || '--' }}</span>
+          </div>
+          <div class="flex items-baseline gap-1">
+            <span>{{ photo.exposureTime ? formatExposureTime(photo.exposureTime) : '--' }}</span>
+            <span class="text-0.8em op-50">s</span>
+          </div>
+          <div class="flex items-baseline gap-1">
+            <span class="text-0.8em op-50">ISO</span>
+            <span>{{ photo.iso || '--' }}</span>
+          </div>
+          <div class="flex items-baseline gap-1">
+            <span>{{ photo.exposureCompensation ? `${photo.exposureCompensation > 0 ? '+' : ''}${photo.exposureCompensation.toFixed(1)}` : '0' }}</span>
+            <span class="text-0.8em op-50">ev</span>
+          </div>
         </div>
       </div>
     </div>
