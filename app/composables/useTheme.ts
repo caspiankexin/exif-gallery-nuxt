@@ -1,7 +1,11 @@
 export function useTheme(init = false) {
   const theme = useLocalStorage('shadcn-theme', 'blue')
   const radius = useLocalStorage('shadcn-radius', '0.5')
-  const disable3DCard = useLocalStorage('disable-3d-card', isTouchDevice)
+  const disable3DCard = useCookie<boolean>('disable-3d-card', {
+    default: () => isTouchDevice,
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 365,
+  })
 
   if (init && !import.meta.env.SSR) {
     watch(theme, (value) => {
