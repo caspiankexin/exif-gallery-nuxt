@@ -100,7 +100,7 @@ function deletePhoto(id: string) {
 
         <div class="text-sm text-muted-foreground flex gap-4 md:flex-col md:gap-2 lt-md:justify-between">
           <div class="flex flex-col gap-2">
-            <span class="text-0.8em op-66">{{ formatDate(photo.takenAt) }}</span>
+            <span class="text-0.8em op-66" data-allow-mismatch="text">{{ formatDate(photo.takenAt) }}</span>
             <div>
               <div v-if="photoWithExif" class="flex gap-1 items-center">
                 <div class="i-lucide-camera op-70" />
