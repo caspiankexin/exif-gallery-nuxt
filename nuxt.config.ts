@@ -85,6 +85,9 @@ export default defineNuxtConfig({
     transpile: [/@jsquash\//],
   },
   vite: {
+    define: {
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true,
+    },
     optimizeDeps: {
       exclude: ['@jsquash/avif', '@jsquash/jpeg', '@jsquash/png', '@jsquash/resize', '@jsquash/webp'],
     },
