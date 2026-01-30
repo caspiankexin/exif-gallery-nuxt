@@ -28,19 +28,19 @@ const buttonRef = ref<HTMLButtonElement>()
     "
   >
     <span
-      class="inline-block translate-x-1 transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0"
+      class="inline-block translate-x-1 transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-12"
     >
       {{ text }}
     </span>
 
     <div
-      class="absolute top-0 z-10 size-full flex translate-x-12 items-center justify-center gap-2 text-primary-foreground opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:-translate-x-1"
+      class="text-primary-foreground opacity-0 flex gap-2 size-full translate-x-12 transition-all duration-300 items-center top-0 justify-center absolute z-10 group-hover:opacity-100 group-hover:-translate-x-1"
     >
       <span>{{ text }}</span>
       <div class="i-lucide-arrow-right text-6" />
     </div>
     <div
-      class="absolute left-[18%] top-[40%] size-2 scale-100 rounded-lg bg-primary transition-all duration-300 group-hover:left-0 group-hover:top-0 group-hover:size-full group-hover:scale-[1.8] group-hover:bg-primary"
+      class="rounded-lg bg-primary size-2 scale-100 transition-all duration-300 left-[18%] top-[40%] absolute group-hover:bg-primary group-hover:size-full group-hover:scale-[1.8] group-hover:left-0 group-hover:top-0"
       :class="{ 'animate-ping animate-delay-400': loading }"
       :style="{ left: props.left }"
     />

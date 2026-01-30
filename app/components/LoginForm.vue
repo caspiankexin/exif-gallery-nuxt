@@ -41,12 +41,12 @@ async function login() {
       <form
         @submit.prevent="login"
       >
-        <div class="grid gap-4">
-          <div class="grid gap-2">
+        <div class="gap-4 grid">
+          <div class="gap-2 grid">
             <div class="flex items-center">
               <Label for="password">{{ $t('login_form.password') }}</Label>
             </div>
-            <div class="relative w-full items-center">
+            <div class="w-full items-center relative">
               <IInput
                 id="password"
                 v-model="password"
@@ -54,9 +54,9 @@ async function login() {
                 autocomplete="on"
                 required
                 :placeholder="$t('login_form.password_placeholder')"
-                class="w-full ps-8"
+                class="ps-8 w-full"
               />
-              <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+              <span class="px-2 flex items-center start-0 inset-y-0 justify-center absolute">
                 <div class="i-lucide-lock-keyhole text-muted-foreground" />
               </span>
             </div>

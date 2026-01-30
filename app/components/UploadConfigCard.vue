@@ -9,7 +9,7 @@ onClickOutside(cardRef, () => {
 <template>
   <Card
     ref="cardRef"
-    class="group relative p-4"
+    class="group p-4 relative"
     :class="{ 'cursor-pointer': !configuring }"
     @click="configuring = true"
   >
@@ -27,8 +27,8 @@ onClickOutside(cardRef, () => {
         </CollapsibleContent>
       </Collapsible>
     </ClientOnly>
-    <div class="pointer-events-none absolute left-0 top-0 h-full w-full overflow-hidden">
-      <div v-show="!configuring" class="i-lucide-cog absolute bottom--4 right--2 text-6xl op-20 group-hover:animate-spin animate-duration-2000!" />
+    <div class="rounded-lg h-full w-full pointer-events-none left-0 top-0 absolute overflow-hidden">
+      <div v-show="!configuring" class="i-lucide-cog text-6xl op-20 bottom--4 right--2 absolute group-hover:animate-spin animate-duration-2000!" />
     </div>
   </Card>
 </template>

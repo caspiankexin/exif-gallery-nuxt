@@ -29,7 +29,7 @@ useInfiniteScroll(window, loadMore, { distance: 320, canLoadMore: () => hasMore.
 </script>
 
 <template>
-  <section class="relative p-4">
+  <section class="p-4 relative">
     <div class="flex flex-col gap-4 xl:px-20">
       <PhotoItem
         v-for="photo in photos"
@@ -56,10 +56,10 @@ useInfiniteScroll(window, loadMore, { distance: 320, canLoadMore: () => hasMore.
         <Skeleton
           v-for="i in LIMIT"
           :key="i"
-          class="aspect-[4/3] w-full rounded-lg"
+          class="rounded-lg w-full aspect-[4/3]"
         />
       </template>
-      <div v-if="!loading && !photos?.length" class="m-auto h-66vh flex flex-col items-center justify-center gap4">
+      <div v-if="!loading && !photos?.length" class="m-auto flex flex-col gap4 h-66vh items-center justify-center">
         <h2>{{ $t('no_photos') }}</h2>
         <NuxtLinkLocale to="/admin">
           <Button>{{ $t('go_to_admin') }}</Button>

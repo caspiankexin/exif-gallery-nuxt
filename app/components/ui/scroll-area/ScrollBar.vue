@@ -27,6 +27,6 @@ const delegatedProps = computed(() => {
            && 'h-2.5 flex-col border-t border-t-transparent p-px',
          props.class)"
   >
-    <ScrollAreaThumb class="relative flex-1 rounded-full bg-border" />
+    <ScrollAreaThumb class="rounded-full bg-border flex-1 relative" />
   </ScrollAreaScrollbar>
 </template>

@@ -11,7 +11,7 @@ if (loggedIn.value)
 </script>
 
 <template>
-  <div class="h-80dvh flex flex-col items-center justify-center gap-4 p-4">
+  <div class="p-4 flex flex-col gap-4 h-80dvh items-center justify-center">
     <LoginForm @logged-in="navigate()" />
     <NuxtLinkLocale to="/admin/demo" class="text-sm op-50">
       {{ $t('login_form.demo') }}

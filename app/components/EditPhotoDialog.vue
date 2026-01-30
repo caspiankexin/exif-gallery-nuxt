@@ -64,8 +64,8 @@ async function saveChanges() {
       <DialogHeader>
         <DialogTitle>{{ $t('edit_photo.title') }}</DialogTitle>
       </DialogHeader>
-      <div class="mx--6 overflow-y-auto px-6">
-        <section class="relative mb-4">
+      <div class="mx--6 px-6 overflow-y-auto">
+        <section class="mb-4 relative">
           <PhotoItem
             v-if="editedPhoto"
             class="min-h-60"
@@ -79,7 +79,7 @@ async function saveChanges() {
           <UploadPhotoForm v-model="editedPhoto" />
         </Card>
       </div>
-      <DialogFooter class="flex flex-row items-center justify-center gap-4">
+      <DialogFooter class="flex flex-row gap-4 items-center justify-center">
         <Button variant="outline" @click="open = false">
           {{ $t('edit_photo.cancel') }}
         </Button>

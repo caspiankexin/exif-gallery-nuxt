@@ -10,15 +10,15 @@ function getBlobUrl(file: File): string {
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-1">
-    <Skeleton v-if="file === 'loading'" class="h-24 w-24 rounded" />
+  <div class="flex flex-col gap-1 items-center">
+    <Skeleton v-if="file === 'loading'" class="rounded h-24 w-24" />
     <img
       v-else-if="file"
       :src="getBlobUrl(file)"
       :alt="file.name"
-      class="h-24 w-24 rounded object-cover"
+      class="rounded h-24 w-24 object-cover"
     >
-    <div v-else class="h-24 w-24 flex items-center justify-center rounded bg-gray-100">
+    <div v-else class="rounded bg-gray-100 flex h-24 w-24 items-center justify-center">
       <span class="text-sm text-gray-400">{{ type }}</span>
     </div>
     <span class="text-xs text-gray-500">{{ type }}</span>

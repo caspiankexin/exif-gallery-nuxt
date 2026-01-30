@@ -32,7 +32,7 @@ const forwardedProps = useForwardProps(delegatedProps)
       )
     "
   >
-    <span class="absolute left-2 h-3.5 w-3.5 flex items-center justify-center">
+    <span class="flex h-3.5 w-3.5 items-center left-2 justify-center absolute">
       <SelectItemIndicator>
         <div class="i-lucide-check size-4" />
       </SelectItemIndicator>

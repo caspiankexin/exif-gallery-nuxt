@@ -1,11 +1,11 @@
 // unocss.config.ts
-import { defineConfig, presetIcons, presetWebFonts, presetWind3 } from 'unocss'
+import { defineConfig, presetIcons, presetWebFonts, presetWind4 } from 'unocss'
 import presetAnimations from 'unocss-preset-animations'
 import { builtinColors, presetShadcn } from 'unocss-preset-shadcn'
 
 export default defineConfig({
   presets: [
-    presetWind3(),
+    presetWind4(),
     presetAnimations(),
     presetShadcn(builtinColors.map(color => ({ color }))),
     presetIcons({

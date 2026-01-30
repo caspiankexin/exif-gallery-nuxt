@@ -180,7 +180,7 @@ watch(() => props.open, (isOpen) => {
           {{ isEditing ? $t('ai_config.edit_provider_desc') : $t('ai_config.add_provider_desc') }}
         </DialogDescription>
       </DialogHeader>
-      <div class="py-4 space-y-4">
+      <div class="py-4 flex flex-col gap-4">
         <!-- 供应商名称 -->
         <div>
           <Label for="provider-name">{{ $t('ai_config.provider_name') }}</Label>
@@ -239,7 +239,7 @@ watch(() => props.open, (isOpen) => {
               v-if="apiKey"
               variant="ghost"
               size="sm"
-              class="h-6 text-xs"
+              class="text-xs h-6"
               :disabled="isLoadingModels"
               @click="fetchModelsList"
             >
@@ -258,12 +258,12 @@ watch(() => props.open, (isOpen) => {
         </div>
 
         <!-- 测试连接结果 -->
-        <div v-if="testConnectionResult" class="border rounded p-2 text-xs">
-          <div v-if="testConnectionResult.success" class="flex items-center text-green-600">
+        <div v-if="testConnectionResult" class="text-xs p-2 border rounded">
+          <div v-if="testConnectionResult.success" class="text-green-600 flex items-center">
             <div class="i-lucide-check-circle mr-1" />
             {{ $t('ai_config.connection_success') }} ({{ testConnectionResult.modelCount }} {{ $t('ai_config.models') }})
           </div>
-          <div v-else class="flex items-center text-red-600">
+          <div v-else class="text-red-600 flex items-center">
             <div class="i-lucide-x-circle mr-1" />
             {{ $t('ai_config.connection_failed') }}: {{ testConnectionResult.error }}
           </div>

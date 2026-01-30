@@ -48,7 +48,7 @@ useSeoMeta({
 
 <template>
   <NuxtLoadingIndicator color="oklch(var(--primary))" />
-  <div class="relative min-h-[100dvh]">
+  <div class="min-h-[100dvh] relative">
     <Sonner :visible-toasts="20" position="top-right" />
     <TooltipProvider :delay-duration="0" disable-closing-trigger>
       <NuxtLayout>

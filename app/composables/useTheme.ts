@@ -16,7 +16,17 @@ export function useTheme(init = false) {
     }, { immediate: true })
 
     watch(radius, (radius) => {
-      document.body.style.setProperty('--radius', `${radius}rem`)
+      const base = Number.parseFloat(radius)
+
+      const sm = Math.max(0, base * 0.6).toFixed(2) // 小：约 60%
+      const md = base.toFixed(2) // 中：基准值
+      const lg = Math.min(2, base * 1.5).toFixed(2) // 大：约 150%，但不超过 2rem（防过大）
+
+      document.body.style.setProperty('--radius', ` ${md}rem`)
+      document.body.style.setProperty('--radius-DEFAULT', ` ${md}rem`)
+      document.body.style.setProperty('--radius-sm', ` ${sm}rem`)
+      document.body.style.setProperty('--radius-md', ` ${md}rem`)
+      document.body.style.setProperty('--radius-lg', ` ${lg}rem`)
     }, { immediate: true })
   }
 

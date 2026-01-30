@@ -28,7 +28,7 @@ function onDeleted() {
 <template>
   <section
     v-if="photo"
-    class="relative p-4"
+    class="p-4 relative"
   >
     <PhotoItem
       :photo="photo"
@@ -39,7 +39,7 @@ function onDeleted() {
     />
   </section>
   <section v-else>
-    <Skeleton class="aspect-[4/3] w-full" />
+    <Skeleton class="w-full aspect-[4/3]" />
   </section>
 </template>
 

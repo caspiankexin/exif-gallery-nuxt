@@ -66,11 +66,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Card class="relative p4">
-    <Collapsible v-model:open="isOpen" class="space-y-4">
-      <div class="flex justify-between gap-2 lt-md:flex-col">
+  <Card class="p4 relative">
+    <Collapsible v-model:open="isOpen" class="flex flex-col gap-4">
+      <div class="flex gap-2 justify-between lt-md:flex-col">
         <div class="flex flex-col gap-2">
-          <div class="flex flex-wrap items-center gap-2">
+          <div class="flex flex-wrap gap-2 items-center">
             <span class="mr-2">{{ file.name }}</span>
             <Tag
               v-for="tag in photo.tags?.split(',') || []"
@@ -78,11 +78,11 @@ onUnmounted(() => {
               :label="tag"
             />
           </div>
-          <div class="flex flex-wrap items-center gap-4">
+          <div class="flex flex-wrap gap-4 items-center">
             <span class="text-lg font-medium">{{ photo.title || $t('upload_photo.untitled') }}</span>
             <span class="text-sm text-muted-foreground">{{ photo.caption }}</span>
           </div>
-          <div class="flex flex-1 flex-wrap items-start gap-6">
+          <div class="flex flex-1 flex-wrap gap-6 items-start">
             <div ref="viewerRef" class="flex flex-wrap gap-4">
               <UploadPhotoImage type="original" :file="file" />
               <template v-if="uploadConfig.enableCompression">
@@ -93,7 +93,7 @@ onUnmounted(() => {
               <UploadPhotoImage v-if="uploadConfig.formats.thumbnail" type="thumbnail" :file="compressFile?.thumbnail" />
             </div>
 
-            <div class="min-w-[200px] flex flex-1 flex-col gap-2 text-sm text-muted-foreground font-mono">
+            <div class="text-sm text-muted-foreground font-mono flex flex-1 flex-col gap-2 min-w-[200px]">
               <span>{{ formatCameraText(photo) }}</span>
               <span>{{ formatExposure(photo).join(' • ') }}</span>
               <span>{{ photo.focalLength ? toFixed(photo.focalLength, 1) : '--' }}mm <span
@@ -105,7 +105,7 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
-        <div class="flex items-end justify-center gap-2 md:flex-col">
+        <div class="flex gap-2 items-end justify-center md:flex-col">
           <Button
             variant="outline"
             class="w-fit"
@@ -134,13 +134,13 @@ onUnmounted(() => {
     </Collapsible>
     <Button
       variant="outline"
-      class="absolute bottom-0 left-50% h-6 w-12 translate-x--50% translate-y-50% p-0"
+      class="p-0 h-6 w-12 translate-x--50% translate-y-50% bottom-0 left-50% absolute"
       @click="isOpen = !isOpen"
     >
       <div :class="isOpen ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'" />
     </Button>
     <button
-      class="absolute right-4 top-4 rounded-sm bg-accent text-muted-foreground opacity-70 ring-offset-background transition-opacity disabled:pointer-events-none hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
+      class="text-muted-foreground rounded-sm bg-accent opacity-70 ring-offset-background transition-opacity right-4 top-4 absolute focus:outline-none hover:opacity-100 disabled:pointer-events-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
       @click="emit('close')"
     >
       <div class="i-lucide-x size-4" />
