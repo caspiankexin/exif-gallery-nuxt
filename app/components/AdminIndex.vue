@@ -4,11 +4,16 @@ defineProps<{
 }>()
 
 const { loggedIn } = useUserSession()
+const { orderBy, order } = usePhotoSort()
 
 const LIMIT = 36
-const { photos, hasMore, loadMore, loading } = usePhotosInfinite({
+const params = computed(() => ({
   hidden: false,
-}, LIMIT)
+  orderBy: orderBy.value,
+  order: order.value,
+}))
+
+const { photos, hasMore, loadMore, loading } = usePhotosInfinite(params, LIMIT)
 
 useInfiniteScroll(window, loadMore, { distance: 320, canLoadMore: () => hasMore.value })
 

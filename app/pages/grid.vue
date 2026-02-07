@@ -7,23 +7,28 @@ definePageMeta({
 
 const currentPhoto = useState<string>('currentPhoto', () => ref(''))
 const isDrawerOpen = ref(false)
+const { orderBy, order } = usePhotoSort()
 
 const LIMIT = 36
-const params = {
+const params = computed(() => ({
   hidden: false,
-}
+  orderBy: orderBy.value,
+  order: order.value,
+}))
 const { photos, hasMore, loadMore, loading } = usePhotosInfinite(params, LIMIT)
+
+// SSR 初始加载
 const { data: initPhotos } = await useFetch('/api/photos', {
   params: {
-    ...params,
+    ...params.value,
     limit: LIMIT,
-    offset: photos.value.length,
+    offset: 0,
   },
 })
 if (initPhotos.value) {
   if (initPhotos.value.data.length < LIMIT)
     hasMore.value = false
-  photos.value.push(...initPhotos.value.data.map(deserializePhoto))
+  photos.value = initPhotos.value.data.map(deserializePhoto)
 }
 
 useInfiniteScroll(window, loadMore, { distance: 240, canLoadMore: () => hasMore.value })

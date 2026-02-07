@@ -23,6 +23,14 @@ async function clearSession() {
 
 const uiStore = useUIStore()
 const { fullscreen, idle } = toRefs(uiStore)
+
+const route = useRoute()
+
+// 只在首页、grid 页和 admin/index 页显示排序按钮（使用 route.name 支持多语言）
+const showSortButton = computed(() => {
+  const name = String(route.name)?.split('_')[0]
+  return ['index', 'grid', 'admin'].includes(name as string)
+})
 </script>
 
 <template>
@@ -54,6 +62,7 @@ const { fullscreen, idle } = toRefs(uiStore)
       </TooltipIconButton>
     </nav>
     <nav class="flex items-center">
+      <HeaderSortMenu v-if="showSortButton" />
       <NuxtLinkLocale to="https://github.com/wiidede/exif-gallery-nuxt" target="_blank">
         <TooltipIconButton :label="$t('header.github')" icon="i-lucide-github op-50" />
       </NuxtLinkLocale>
