@@ -62,7 +62,6 @@ const showSortButton = computed(() => {
       </TooltipIconButton>
     </nav>
     <nav class="flex items-center">
-      <HeaderSortMenu v-if="showSortButton" />
       <NuxtLinkLocale to="https://github.com/wiidede/exif-gallery-nuxt" target="_blank">
         <TooltipIconButton :label="$t('header.github')" icon="i-lucide-github op-50" variant="ghost" size="icon" />
       </NuxtLinkLocale>
@@ -78,6 +77,7 @@ const showSortButton = computed(() => {
         size="icon"
         @click="clearSession()"
       />
+      <HeaderSortMenu v-if="showSortButton" />
       <ThemePopover class="flex-shrink-0" />
     </nav>
   </header>
