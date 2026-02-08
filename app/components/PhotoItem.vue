@@ -86,7 +86,9 @@ function deletePhoto(id: string) {
       >
         <div class="flex lt-md:mb-2 md:flex-col lt-md:justify-between">
           <div>
-            <h3> {{ photo.title }}</h3>
+            <h2 class="text-xl">
+              {{ photo.title }}
+            </h2>
             <p class="text-sm text-muted-foreground">
               {{ photo.caption }}
             </p>
