@@ -116,7 +116,6 @@ function deletePhoto(id: string) {
               </div>
             </div>
             <div class="flex flex-wrap gap-x-2 gap-y-1 md:flex-col">
-              {{ photo.tags }}
               <NuxtLinkLocale
                 v-for="tag in (photo.tags ? photo.tags.split(',') : [])"
                 :key="tag"
