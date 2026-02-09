@@ -60,7 +60,7 @@ async function saveChanges() {
     <DialogTrigger as-child>
       <slot />
     </DialogTrigger>
-    <DialogContent class="grid-rows-[auto_minmax(0,1fr)_auto] max-h-[90dvh] max-w-[90dvw]">
+    <DialogContent class="grid-rows-[auto_minmax(0,1fr)_auto] max-h-[90dvh] max-w-[90dvw] sm:max-w-[90dvw] xl:max-w-300">
       <DialogHeader>
         <DialogTitle>{{ $t('edit_photo.title') }}</DialogTitle>
       </DialogHeader>

@@ -173,7 +173,7 @@ watch(() => props.open, (isOpen) => {
 
 <template>
   <Dialog :open="open" @update:open="emit('update:open', $event)">
-    <DialogContent class="max-w-md">
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>{{ isEditing ? $t('ai_config.edit_provider') : $t('ai_config.add_provider') }}</DialogTitle>
         <DialogDescription>
