@@ -21,22 +21,22 @@ async function clearSession() {
   navigateTo(localePath('/admin/login'))
 }
 
-const uiStore = useUIStore()
-const { fullscreen, idle } = toRefs(uiStore)
-
 const route = useRoute()
 
-// 只在首页、grid 页和 admin/index 页显示排序按钮（使用 route.name 支持多语言）
-const showSortButton = computed(() => {
-  const name = String(route.name).split('_')[0]
-  return ['index', 'grid', 'admin'].includes(name as string)
-})
+const idle = useState('p-idle', () => true)
+const showSortButton = ref(false)
+const fullscreen = ref(false)
+watch(() => route.name, (routeName) => {
+  const name = String(routeName).split('_')[0]
+  showSortButton.value = !!name && ['index', 'grid', 'admin'].includes(name)
+  fullscreen.value = !!name && ['p-id'].includes(name)
+}, { immediate: true })
 </script>
 
 <template>
   <header
     class="px-4 border-b border-dashed bg-background/60 flex h-12 w-full transition-transform duration-300 items-center top-0 justify-between z-50 backdrop-blur"
-    :class="fullscreen ? (idle ? 'absolute -translate-y-full' : 'absolute translate-y-0') : 'sticky'"
+    :class="fullscreen ? (idle ? 'absolute -translate-y-full op-0 pointer-events-none' : 'absolute translate-y-0 op-100') : 'sticky'"
   >
     <nav div class="flex flex-auto min-w-0 items-center justify-items-start">
       <NuxtLinkLocale to="/" class="font-medium me-2 flex-[0_1_auto] min-w-0 truncate">

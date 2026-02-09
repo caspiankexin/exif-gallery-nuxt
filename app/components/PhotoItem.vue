@@ -26,7 +26,7 @@ const isMini = computed(() => mdScreen.value && mini)
 
 const localPath = useLocalePath()
 
-// 生成相机页面链接（使用 localPath 拼接避免编码问题）
+// 使用 localPath 拼接避免编码问题
 const cameraLink = computed(() => {
   const p = photo.value
   if (!p.make && !p.model)
@@ -36,7 +36,6 @@ const cameraLink = computed(() => {
   return `${localPath('/camera')}/${encodeURIComponent(`${make}|${model}`)}`
 })
 
-// 生成镜头页面链接（使用 localPath 拼接避免编码问题）
 const lensLink = computed(() => {
   const p = photo.value
   if (!p.lensModel)
@@ -63,33 +62,36 @@ function deletePhoto(id: string) {
       :fullscreen="fullscreen"
       :class="fullscreen ? 'flex-1' : 'md:flex-[2] xl:flex-[3]'"
     />
+    <!-- info outer -->
     <div
-      class="transition-transform duration-300"
+      class="color-foreground/67 transition-all duration-300"
       :class="[
         fullscreen
-          ? 'absolute z-49'
+          ? 'absolute z-49 inset-x-0 bottom-2 flex justify-center pointer-events-none'
           : 'h-fit top-16 relative sticky z-1 md:flex-[1]',
         isMini ? 'md:top-0' : '',
-        fullscreen && idle
-          ? 'lt-md:translate-y-full md:translate-x-full invisible'
-          : 'translate-x-0 translate-y-0 visible',
-        fullscreen ? 'lt-md:inset-x-0 lt-md:bottom-0 md:inset-y-0 md:right-4 flex md:flex-col justify-center pointer-events-none' : '',
+        fullscreen ? idle
+          ? 'translate-y-full op-0 pointer-events-none'
+          : 'translate-y-0 op-100'
+        : '',
       ]"
     >
+      <!-- info inner -->
       <div
-        :class="[
-          fullscreen
-            ? 'bg-background/70 backdrop-blur shadow-2xl overflow-y-auto rounded-md'
-            : 'h-full',
-          fullscreen ? 'w-fit h-fit p-4 pointer-events-auto' : '',
-        ]"
+        :class="fullscreen
+          ? 'bg-background/30 backdrop-blur shadow-2xl rounded-md w-fit h-fit p-4 pointer-events-auto'
+          : 'h-full'"
       >
-        <div class="flex lt-md:mb-2 md:flex-col lt-md:justify-between">
+        <!-- title and action buttons -->
+        <div
+          class="flex"
+          :class="fullscreen ? 'mb-2 justify-between' : 'lt-md:mb-2 md:flex-col lt-md:justify-between'"
+        >
           <div>
-            <h2 class="text-xl">
+            <h2 class="text-xl color-foreground">
               {{ photo.title }}
             </h2>
-            <p class="text-sm text-muted-foreground">
+            <p class="text-sm">
               {{ photo.caption }}
             </p>
           </div>
@@ -102,7 +104,7 @@ function deletePhoto(id: string) {
               <TooltipIconButton
                 v-if="loggedIn"
                 :label="$t('button.edit')"
-                icon="i-lucide-edit text-muted-foreground"
+                icon="i-lucide-edit"
                 variant="ghost"
                 size="icon"
               />
@@ -115,7 +117,7 @@ function deletePhoto(id: string) {
             >
               <TooltipIconButton
                 :label="$t('button.delete')"
-                icon="i-lucide-trash text-muted-foreground"
+                icon="i-lucide-trash"
                 variant="ghost"
                 size="icon"
                 @click="showDeletePopover = true"
@@ -124,9 +126,13 @@ function deletePhoto(id: string) {
           </div>
         </div>
 
-        <div class="text-sm text-muted-foreground flex gap-4 md:flex-col md:gap-2 lt-md:justify-between">
+        <div
+          class="text-sm flex gap-4"
+          :class="fullscreen ? 'justify-between' : 'md:flex-col md:gap-2 lt-md:justify-between'"
+        >
+          <!-- date and camera/lens info -->
           <div class="flex flex-col gap-2">
-            <span class="text-0.8em op-66" data-allow-mismatch="text">{{ formatDate(photo.takenAt) }}</span>
+            <span class="text-0.8em leading-none op-66" data-allow-mismatch="text">{{ formatDate(photo.takenAt) }}</span>
             <div>
               <NuxtLink
                 v-if="photoWithExif && cameraLink"
@@ -153,7 +159,7 @@ function deletePhoto(id: string) {
                 <span>{{ formatLensText(photo) }}</span>
               </div>
             </div>
-            <div class="flex flex-wrap gap-x-2 gap-y-1 md:flex-col">
+            <div class="flex flex-wrap gap-x-2 gap-y-1" :class="{ 'md:flex-col': !fullscreen }">
               <NuxtLink
                 v-for="tag in (photo.tags ? photo.tags.split(',') : [])"
                 :key="tag"
@@ -164,9 +170,10 @@ function deletePhoto(id: string) {
               </NuxtLink>
             </div>
           </div>
+          <!-- exposure info -->
           <div
             v-if="photoWithExif"
-            class="text-muted-foreground leading-tight font-mono flex flex-col"
+            class="leading-tight font-mono flex flex-col"
           >
             <div class="flex items-baseline">
               <span>{{ photo.focalLength ? toFixed(photo.focalLength, 1) : '--' }}mm</span>

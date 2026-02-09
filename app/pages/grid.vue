@@ -33,6 +33,10 @@ if (initPhotos.value) {
 
 useInfiniteScroll(window, loadMore, { distance: 240, canLoadMore: () => hasMore.value })
 
+// 设置导航上下文
+const { setupNavigation } = useNavigationSetup('grid', params.value, photos, hasMore, LIMIT)
+setupNavigation()
+
 function getPhotoThumbnail(photo: IPhoto) {
   const path = photo.thumbnail || photo.jpeg || photo.webp || photo.avif
   if (!path)

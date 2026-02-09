@@ -42,6 +42,10 @@ useInfiniteScroll(window, loadMore, { distance: 240, canLoadMore: () => hasMore.
 // Initial load
 onMounted(() => loadMore())
 
+// 设置导航上下文
+const { setupNavigation } = useNavigationSetup('lens', params, photos, hasMore, LIMIT)
+setupNavigation()
+
 function getPhotoThumbnail(photo: IPhoto) {
   const path = photo.thumbnail || photo.jpeg || photo.webp || photo.avif
   if (!path)

@@ -32,6 +32,10 @@ if (initPhotos.value) {
 }
 
 useInfiniteScroll(window, loadMore, { distance: 320, canLoadMore: () => hasMore.value })
+
+// 设置导航上下文
+const { setupNavigation } = useNavigationSetup('home', params.value, photos, hasMore, LIMIT)
+setupNavigation()
 </script>
 
 <template>
