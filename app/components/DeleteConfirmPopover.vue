@@ -16,7 +16,7 @@ const open = defineModel<boolean>('open', { default: false })
     <PopoverTrigger as-child>
       <slot />
     </PopoverTrigger>
-    <PopoverContent align="end" :align-offset="-8" class="w-auto p-2">
+    <PopoverContent align="end" :align-offset="-8" class="p-2 w-auto">
       <div class="flex gap-2">
         <Button variant="outline" size="sm" @click="emit('cancel'); open = false">
           {{ $t('button.cancel') }}

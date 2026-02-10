@@ -46,7 +46,7 @@ function handleMouseLeave() {
   >
     <div
       ref="innerRef"
-      class="relative transition-all duration-200 ease-linear" :class="[
+      class="transition-all duration-200 ease-linear relative" :class="[
         $props.class,
       ]"
       style="transform-style: preserve-3d"

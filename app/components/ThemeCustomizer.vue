@@ -18,11 +18,11 @@ const languageValues = [
 </script>
 
 <template>
-  <div class="flex flex-col space-y-4 md:space-y-6">
-    <div class="flex flex-1 flex-col space-y-4 md:space-y-6">
-      <div class="space-y-1.5">
+  <div class="flex flex-col gap-4 md:gap-6">
+    <div class="flex flex-1 flex-col gap-4 md:gap-6">
+      <div class="flex flex-col gap-1.5">
         <Label for="language" class="text-xs"> {{ $t('theme.language') }} </Label>
-        <div class="flex space-x-2">
+        <div class="flex gap-2">
           <NuxtLink
             v-for="(langValue, index) in languageValues"
             :key="index"
@@ -38,14 +38,14 @@ const languageValues = [
           </NuxtLink>
         </div>
       </div>
-      <div class="space-y-1.5">
+      <div class="flex flex-col gap-1.5">
         <Label for="color" class="text-xs"> {{ $t('theme.color') }} </Label>
-        <div class="grid grid-cols-3 gap-2">
+        <div class="gap-2 grid grid-cols-3">
           <Button
             v-for="(color, index) in baseColors"
             :key="index"
             variant="outline"
-            class="h-8 justify-start px-3"
+            class="px-3 h-8 justify-start"
             :class="
               color.name === theme
                 ? 'border-foreground border-2'
@@ -57,24 +57,24 @@ const languageValues = [
             @click="theme = color.name"
           >
             <span
-              class="h-5 w-5 flex shrink-0 items-center justify-center rounded-full bg-[--theme-primary]"
+              class="rounded-full bg-[--theme-primary] flex shrink-0 h-5 w-5 items-center justify-center"
             >
-              <div v-if="color.name === theme" class="i-lucide-check h-3 w-3 text-white" />
+              <div v-if="color.name === theme" class="i-lucide-check text-white h-3 w-3" />
             </span>
-            <span class="ml-2 text-xs capitalize">
+            <span class="text-xs ml-2 capitalize">
               {{ color.name }}
             </span>
           </Button>
         </div>
       </div>
-      <div class="space-y-1.5">
+      <div class="flex flex-col gap-1.5">
         <Label for="radius" class="text-xs"> {{ $t('theme.radius') }} </Label>
-        <div class="grid grid-cols-5 gap-2">
+        <div class="gap-2 grid grid-cols-5">
           <Button
             v-for="(r, index) in RADII"
             :key="index"
             variant="outline"
-            class="h-8 justify-center px-3"
+            class="px-3 h-8 justify-center"
             :class="
               r === radius
                 ? 'border-foreground border-2'
@@ -88,10 +88,10 @@ const languageValues = [
           </Button>
         </div>
       </div>
-      <div class="space-y-1.5">
+      <div class="flex flex-col gap-1.5">
         <Label for="theme" class="text-xs"> {{ $t('theme.mode') }} </Label>
 
-        <div class="flex space-x-2">
+        <div class="flex gap-2">
           <Button
             v-for="(colorModeValue, index) in colorModeValues"
             :key="index"
@@ -105,8 +105,8 @@ const languageValues = [
           </Button>
         </div>
       </div>
-      <div class="space-y-1.5">
-        <div class="flex items-center space-x-2">
+      <div>
+        <div class="flex gap-2 items-center">
           <Label for="3dcard" class="text-xs"> {{ $t('theme.3dcard') }} </Label>
           <Checkbox
             id="3dcard"

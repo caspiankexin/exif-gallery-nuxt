@@ -19,6 +19,14 @@ header:
   grid_view: 网格视图
   theme: 自定义主题
   logout: 退出登录
+  sort: 排序照片
+sort:
+  taken_at: 拍摄时间
+  created_at: 添加时间
+  direction: 排序方向
+  field: 排序字段
+  desc: 降序
+  asc: 升序
 theme:
   color: 颜色
   radius: 圆角
@@ -97,7 +105,7 @@ basic_info:
   photo_title: 标题
   description: 描述
   tags: 标签
-  tags_placeholder: 添加标签...
+  tags_placeholder: 添加标签(↩︎)
   semantic_description: 语义描述
 camera_lens:
   title: 相机镜头

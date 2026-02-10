@@ -19,6 +19,14 @@ header:
   grid_view: Grid View
   theme: Customize Theme
   logout: Logout
+  sort: Sort Photos
+sort:
+  taken_at: Taken Time
+  created_at: Created Time
+  direction: Sort Direction
+  field: Sort Field
+  desc: Descending
+  asc: Ascending
 theme:
   color: Color
   radius: Radius
@@ -97,7 +105,7 @@ basic_info:
   photo_title: Title
   description: Description
   tags: Tags
-  tags_placeholder: Add tags...
+  tags_placeholder: Add tags(↩︎)
   semantic_description: Semantic Description
 camera_lens:
   title: Camera & Lens

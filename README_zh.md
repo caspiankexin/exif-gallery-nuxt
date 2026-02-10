@@ -2,7 +2,7 @@
 
 # EXIF Gallery Nuxt
 
-**构建于边缘的现代化 AI 智能相册**
+**可免费部署在 Cloudflare 的个人相册网站，支持AI图像分析，浏览器压缩图片**
 
 [English](README.md) | [简体中文](README_zh.md)
 
@@ -20,11 +20,13 @@
 
 ## ✨ 功能特性
 
+- 🆓 **免费 Cloudflare 部署** - 零成本托管在 Cloudflare Workers，享受丰厚的免费额度
 - 🧠 **AI 智能图像分析** - 集成 OpenAI 和 Gemini，实现语义分析和智能图像描述
 - 🖼️ **智能图像处理** - 浏览器端图片压缩，支持 JPEG、WebP 和 AVIF 多种格式，自动生成缩略图
 - 💾 **边缘原生存储** - 基于 Cloudflare R2 对象存储和 D1 数据库，实现最优性能和全球边缘部署
 - 📊 **完整 EXIF 管理** - 全面提取和展示图像元数据，包括相机设置、位置信息和时间戳
 - 🏷️ **灵活的标签系统** - 通过自定义标签组织照片，支持按类别筛选
+- 📑 **排序与翻页** - 排序照片，流畅的分页浏览体验
 - 🎨 **现代化用户体验** - 响应式设计，流畅的视图过渡动画和精美 UI 组件
 - 🔐 **安全的管理后台** - 内置身份验证系统，安全地管理照片和上传
 
@@ -122,6 +124,7 @@ pnpm dev
 
 > [!NOTE]
 > 本项目采用分离的迁移管理策略：
+>
 > - **本地开发**：NuxtHub 自动管理，在 `_hub_migrations` 表中记录
 > - **云端部署**：GitHub Actions 使用 Wrangler 管理，`_hub_migrations` 表中记录，相比NuxtHub多`.sql`后缀
 > - **注意**：本地开发请勿手动运行 wrangler 迁移命令，因为没有`.sql`后缀
@@ -168,31 +171,34 @@ pnpm dev --remote
    - D1 数据库 ID
    - R2 存储桶名称
 
-2. **更新 `wrangler.jsonc`** 使用现有资源：
+3. **更新 `wrangler.jsonc`** 使用现有资源：
+
    ```jsonc
    {
      "d1_databases": [{ "binding": "DB", "database_id": "YOUR_EXISTING_DATABASE_ID" }],
      "r2_buckets": [{ "binding": "BLOB", "bucket_name": "YOUR_EXISTING_BUCKET_NAME" }]
    }
    ```
+
    提交并推送此更改。
 
-3. **创建新的 Worker**（参考上方部署步骤 2-3）
+4. **创建新的 Worker**（参考上方部署步骤 2-3）
 
-4. **配置环境变量**（从旧项目复制，参考上方部署步骤 4）
+5. **配置环境变量**（从旧项目复制，参考上方部署步骤 4）
 
-5. **部署** - 数据仍保留在原本的 D1 数据库和 R2 存储桶中
+6. **部署** - 数据仍保留在原本的 D1 数据库和 R2 存储桶中
 
 ## 🔧 配置
 
 ### 环境变量
 
-| 变量 | 必需 | 默认值 | 描述 |
-|------|------|--------|------|
-| `NUXT_ADMIN_PASSWORD` | 是 | `admin` | 管理后台访问密码 |
-| `NUXT_SESSION_PASSWORD` | 是 | 自动生成 | 会话加密密钥（至少32位） |
-| `NUXT_PUBLIC_TITLE` | 否 | `Exif Gallery Nuxt` | 应用标题 |
-| `NUXT_PUBLIC_DESCRIPTION` | 否 | 一个集成了 AI 智能处理、浏览器图片压缩等功能的全栈相册解决方案 | 应用描述 |
+| 变量                                  | 必需 | 默认值                                                         | 描述                                            |
+| ------------------------------------- | ---- | -------------------------------------------------------------- | ----------------------------------------------- |
+| `NUXT_ADMIN_PASSWORD`                 | 是   | `admin`                                                        | 管理后台访问密码                                |
+| `NUXT_SESSION_PASSWORD`               | 是   | 自动生成                                                       | 会话加密密钥（至少32位）                        |
+| `NUXT_PUBLIC_TITLE`                   | 否   | `Exif Gallery Nuxt`                                            | 应用标题                                        |
+| `NUXT_PUBLIC_DESCRIPTION`             | 否   | 一个集成了 AI 智能处理、浏览器图片压缩等功能的全栈相册解决方案 | 应用描述                                        |
+| `NUXT_PUBLIC_DISABLE_3D_CARD_DEFAULT` | 否   | `false`                                                        | 是否默认禁用 3D 卡片效果（设为 `true`默认禁用） |
 
 ## 📁 项目结构
 

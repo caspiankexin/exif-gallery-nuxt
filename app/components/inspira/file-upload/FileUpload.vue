@@ -58,7 +58,7 @@ function handleDrop(e: DragEvent) {
     @mouseleave="handleLeave"
   >
     <div
-      class="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg p-10"
+      class="group/file p-10 rounded-lg w-full block cursor-pointer relative overflow-hidden"
       @click="handleClick"
     >
       <input
@@ -72,7 +72,7 @@ function handleDrop(e: DragEvent) {
 
       <!-- Grid pattern -->
       <div
-        class="[mask-image:radial-gradient(ellipse_at_center,white,transparent)] pointer-events-none absolute inset-0"
+        class="pointer-events-none [mask-image:radial-gradient(ellipse_at_center,white,transparent)] inset-0 absolute"
       >
         <slot />
       </div>
@@ -80,31 +80,31 @@ function handleDrop(e: DragEvent) {
       <!-- Content -->
       <div class="flex flex-col items-center justify-center">
         <p
-          class="relative z-20 text-base text-neutral-700 font-bold font-sans dark:text-neutral-300"
+          class="text-base text-neutral-700 font-bold font-sans relative z-20 dark:text-neutral-300"
         >
           {{ $t('file_upload.title') }}
         </p>
         <p
-          class="relative z-20 mt-2 text-base text-neutral-400 font-normal font-sans dark:text-neutral-400"
+          class="text-base text-neutral-400 font-normal font-sans mt-2 relative z-20 dark:text-neutral-400"
         >
           {{ $t('file_upload.description') }}
         </p>
 
-        <div class="relative mx-auto mt-10 max-w-xl w-full space-y-4">
+        <div class="mx-auto mt-10 flex flex-col gap-4 max-w-xl w-full relative">
           <template v-if="showList && files.length">
             <Motion
               v-for="(file, idx) in files"
               :key="`file-${idx}`"
               :initial="{ opacity: 0, scaleX: 0 }"
               :animate="{ opacity: 1, scaleX: 1 }"
-              class="relative z-40 mx-auto w-full flex flex-col items-start justify-start overflow-hidden rounded-md bg-white p-4 shadow-sm md:h-24 dark:bg-neutral-900"
+              class="mx-auto p-4 rounded-md bg-white flex flex-col w-full shadow-sm items-start justify-start relative z-40 overflow-hidden dark:bg-neutral-900 md:h-24"
             >
-              <div class="w-full flex items-center justify-between gap-4">
+              <div class="flex gap-4 w-full items-center justify-between">
                 <Motion
                   as="p"
                   :initial="{ opacity: 0 }"
                   :animate="{ opacity: 1 }"
-                  class="max-w-xs truncate text-base text-neutral-700 dark:text-neutral-300"
+                  class="text-base text-neutral-700 max-w-xs truncate dark:text-neutral-300"
                 >
                   {{ file.name }}
                 </Motion>
@@ -112,20 +112,20 @@ function handleDrop(e: DragEvent) {
                   as="p"
                   :initial="{ opacity: 0 }"
                   :animate="{ opacity: 1 }"
-                  class="w-fit shrink-0 rounded-lg px-2 py-1 text-sm text-neutral-600 shadow-input dark:bg-neutral-800 dark:text-white"
+                  class="text-sm text-neutral-600 px-2 py-1 rounded-lg shrink-0 w-fit shadow-input dark:text-white dark:bg-neutral-800"
                 >
                   {{ (file.size / (1024 * 1024)).toFixed(2) }} MB
                 </Motion>
               </div>
 
               <div
-                class="mt-2 w-full flex flex-col items-start justify-between text-sm text-neutral-600 md:flex-row md:items-center dark:text-neutral-400"
+                class="text-sm text-neutral-600 mt-2 flex flex-col w-full items-start justify-between dark:text-neutral-400 md:flex-row md:items-center"
               >
                 <Motion
                   as="p"
                   :initial="{ opacity: 0 }"
                   :animate="{ opacity: 1 }"
-                  class="rounded-md bg-gray-100 px-1.5 py-1 text-sm dark:bg-neutral-800"
+                  class="text-sm px-1.5 py-1 rounded-md bg-gray-100 dark:bg-neutral-800"
                 >
                   {{ file.type || $t('file_upload.type') }}
                 </Motion>
@@ -142,7 +142,7 @@ function handleDrop(e: DragEvent) {
           <template v-if="!showList || !files.length">
             <Motion
               as="div"
-              class="relative z-40 mx-auto mt-4 h-32 max-w-32 w-full flex items-center justify-center rounded-md bg-white shadow-[0px_10px_50px_rgba(0,0,0,0.1)] dark:bg-neutral-900 group-hover/file:shadow-2xl"
+              class="mx-auto mt-4 rounded-md bg-white flex h-32 max-w-32 w-full shadow-[0px_10px_50px_rgba(0,0,0,0.1)] items-center justify-center relative z-40 dark:bg-neutral-900 group-hover/file:shadow-2xl"
               :initial="{
                 x: 0,
                 y: 0,
@@ -167,7 +167,7 @@ function handleDrop(e: DragEvent) {
             </Motion>
 
             <div
-              class="absolute inset-0 z-30 mx-auto mt-4 h-32 max-w-32 w-full flex items-center justify-center border border-primary rounded-md border-dashed bg-transparent transition-opacity"
+              class="mx-auto mt-4 border border-primary rounded-md border-dashed bg-transparent flex h-32 max-w-32 w-full transition-opacity items-center inset-0 justify-center absolute z-30"
               :class="{ 'opacity-100': isActive, 'opacity-0': !isActive }"
             />
           </template>

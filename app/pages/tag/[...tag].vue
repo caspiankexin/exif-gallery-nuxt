@@ -38,6 +38,10 @@ useInfiniteScroll(window, loadMore, { distance: 240, canLoadMore: () => hasMore.
 // Initial load
 onMounted(() => loadMore())
 
+// 设置导航上下文
+const { setupNavigation } = useNavigationSetup('tag', params, photos, hasMore, LIMIT)
+setupNavigation()
+
 function getPhotoThumbnail(photo: IPhoto) {
   const path = photo.thumbnail || photo.jpeg || photo.webp || photo.avif
   if (!path)
@@ -47,13 +51,13 @@ function getPhotoThumbnail(photo: IPhoto) {
 </script>
 
 <template>
-  <section class="relative p-4">
-    <h3 class="mb-2 text-xl font-medium">
+  <section class="p-4 relative">
+    <h3 class="text-xl font-medium mb-2">
       {{ tag }}
     </h3>
     <div
       v-if="photos && photos.length"
-      class="grid grid-cols-3 flex-[3] gap-1 2xl:grid-cols-8 lg:grid-cols-5 sm:grid-cols-4 xl:grid-cols-6"
+      class="flex-[3] gap-1 grid grid-cols-3 2xl:grid-cols-8 lg:grid-cols-5 sm:grid-cols-4 xl:grid-cols-6"
     >
       <PhotoItemCard
         v-for="photo in photos"
@@ -69,7 +73,7 @@ function getPhotoThumbnail(photo: IPhoto) {
               v-if="photo"
               :src="`/photos/${getPhotoThumbnail(photo)}`"
               :class="{ 'current-image': currentPhoto === photo.id }"
-              class="aspect-[4/3] w-full rounded-lg object-cover"
+              class="rounded-lg w-full aspect-[4/3] object-cover"
               @click="currentPhoto = photo.id"
             >
           </NuxtLinkLocale>
@@ -79,7 +83,7 @@ function getPhotoThumbnail(photo: IPhoto) {
         <Skeleton
           v-for="i in LIMIT"
           :key="i"
-          class="aspect-[4/3] w-full rounded-lg"
+          class="rounded-lg w-full aspect-[4/3]"
         />
       </template>
     </div>

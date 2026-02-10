@@ -62,10 +62,10 @@ function handleSearchInput(newQuery: string) {
         <span class="truncate">
           {{ selectedModel?.name || placeholder }}
         </span>
-        <div class="i-lucide-chevron-down ml-2 h-4 w-4 shrink-0 opacity-50" />
+        <div class="i-lucide-chevron-down ml-2 opacity-50 shrink-0 h-4 w-4" />
       </Button>
     </PopoverTrigger>
-    <PopoverContent class="w-[300px] p-0">
+    <PopoverContent class="p-0 w-[300px]">
       <Command>
         <CommandInput
           class="h-9"
@@ -84,7 +84,7 @@ function handleSearchInput(newQuery: string) {
               <div class="i-lucide-plus mr-2 h-4 w-4" />
               <span>{{ $t('ai_config.use_custom_model', { model: searchQuery }) }}</span>
             </CommandItemFixed>
-            <div v-else class="py-3 text-center text-sm text-muted-foreground">
+            <div v-else class="text-sm text-muted-foreground py-3 text-center">
               <div>{{ $t('ai_config.search_to_add_custom_model') }}</div>
             </div>
           </CommandGroupFixed>

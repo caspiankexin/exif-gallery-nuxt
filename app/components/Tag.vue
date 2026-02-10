@@ -9,7 +9,7 @@ const {
 </script>
 
 <template>
-  <div class="flex items-center leading-tight">
+  <div class="leading-tight flex items-center">
     <div :class="icon" class="me-1px size-1em" />
     <slot>
       <span class="max-w-24 truncate lt-sm:max-w-16">{{ label }}</span>

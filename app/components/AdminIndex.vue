@@ -4,11 +4,16 @@ defineProps<{
 }>()
 
 const { loggedIn } = useUserSession()
+const { orderBy, order } = usePhotoSort()
 
 const LIMIT = 36
-const { photos, hasMore, loadMore, loading } = usePhotosInfinite({
+const params = computed(() => ({
   hidden: false,
-}, LIMIT)
+  orderBy: orderBy.value,
+  order: order.value,
+}))
+
+const { photos, hasMore, loadMore, loading } = usePhotosInfinite(params, LIMIT)
 
 useInfiniteScroll(window, loadMore, { distance: 320, canLoadMore: () => hasMore.value })
 
@@ -34,10 +39,10 @@ function openEditDialog(photo: IPhoto) {
 </script>
 
 <template>
-  <div class="p-4 space-y-4">
+  <div class="p-4 flex flex-col gap-4">
     <NuxtLinkLocale :to="demo ? '/admin/demo/upload' : '/admin/upload'">
-      <div class="group relative w-full flex flex-col items-center justify-center overflow-hidden border border-muted rounded-lg bg-background p-4 md:shadow-xl">
-        <span class="pointer-events-none my-8 whitespace-pre-wrap from-black to-gray-300/80 bg-gradient-to-b bg-clip-text text-center text-5xl text-transparent font-semibold leading-none dark:from-white dark:to-slate-900/10">
+      <div class="group p-4 border border-muted rounded-lg bg-background flex flex-col w-full items-center justify-center relative overflow-hidden md:shadow-xl">
+        <span class="text-5xl text-transparent leading-none font-semibold my-8 text-center pointer-events-none whitespace-pre-wrap from-black to-gray-300/80 bg-gradient-to-b bg-clip-text dark:from-white dark:to-slate-900/10">
           {{ $t('go_to_upload') }}
         </span>
         <BorderBeam
@@ -50,51 +55,52 @@ function openEditDialog(photo: IPhoto) {
     </NuxtLinkLocale>
     <div
       v-if="photos && photos.length"
-      class="grid grid-cols-3 border-l border-t 2xl:grid-cols-8 lg:grid-cols-5 sm:grid-cols-4 xl:grid-cols-6"
+      class="gap-2px grid grid-cols-3 2xl:grid-cols-8 lg:grid-cols-5 sm:grid-cols-4 xl:grid-cols-6"
     >
       <div
         v-for="photo in photos"
         :key="photo.id"
-        class="group relative border-b border-r p-2 hover:bg-muted"
+        class="group p-2 border rounded-lg border-dashed relative hover:bg-muted"
       >
-        <div class="aspect-[4/3] h-auto w-full flex rounded-lg">
-          <div class="absolute right--0 top--0 z-[9999] hidden gap-1 sm:right-1 sm:top-1 group-hover:flex lt-md:translate-y--100%">
+        <div class="rounded-lg flex h-auto w-full aspect-[4/3]">
+          <div class="gap-1 hidden right--0 top--0 absolute z-[9999] group-hover:flex lt-md:translate-y--100% sm:right-1 sm:top-1">
             <EditPhotoDialog
               :photo="selectedPhoto"
             >
-              <TooltipIconButton
-                :label="$t('button.edit')"
-                icon="i-lucide-edit"
-                variant="default"
+              <Button
+                size="icon"
                 @click="openEditDialog(photo)"
-              />
+              >
+                <div class="i-lucide-edit" />
+              </Button>
             </EditPhotoDialog>
-            <TooltipIconButton
+            <Button
               :loading="deletingPhoto === photo.id"
-              :label="$t('button.delete')"
               :disabled="!loggedIn"
-              icon="i-lucide-trash"
-              variant="default"
+              variant="destructive"
+              size="icon"
               @click="loggedIn && deletePhoto(photo.id)"
-            />
+            >
+              <div class="i-lucide-trash" />
+            </Button>
           </div>
           <img
             v-if="photo"
             :src="`/photos/${getPhotoThumbnail(photo)}`"
-            class="m-auto rounded-lg object-cover shadow-black/50 shadow-lg"
+            class="m-auto rounded-md shadow-black/50 shadow-lg object-cover"
             :class="photo.aspectRatio ? photo.aspectRatio > (4 / 3) ? 'w-full h-auto' : 'h-full w-auto' : 'h-full w-full'"
           >
         </div>
         <div class="mt-2">
-          <div class="flex items-center justify-center gap-2">
+          <div class="flex gap-2 items-center justify-center">
             <span> {{ photo.title }}</span>
           </div>
-          <div class="flex items-center justify-center gap-2">
+          <div class="flex gap-2 items-center justify-center">
             <span class="text-sm text-muted-foreground">{{ photo.caption }}</span>
           </div>
-          <div class="flex flex-wrap justify-center gap-x-1 gap-y-0">
+          <div class="flex flex-wrap gap-x-1 gap-y-0 justify-center">
             <Tag
-              v-for="tag in photo.tags?.split(',') || []"
+              v-for="tag in (photo.tags ? photo.tags.split(',') : [])"
               :key="tag" :label="tag"
               class="text-sm text-muted-foreground"
             />
@@ -103,7 +109,7 @@ function openEditDialog(photo: IPhoto) {
       </div>
       <template v-if="loading">
         <div v-for="i in LIMIT" :key="i">
-          <Skeleton class="aspect-[4/3] w-full rounded-lg" />
+          <Skeleton class="rounded-lg w-full aspect-[4/3]" />
         </div>
       </template>
     </div>

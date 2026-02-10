@@ -2,7 +2,7 @@
 
 # EXIF Gallery Nuxt
 
-**A modern, AI-powered photo gallery built on the edge**
+**A free personal photo gallery deployable on Cloudflare, with AI image analysis and browser-side image compression**
 
 [English](README.md) | [简体中文](README_zh.md)
 
@@ -20,11 +20,13 @@
 
 ## ✨ Features
 
+- 🆓 **Free Cloudflare Deployment** - Zero-cost hosting on Cloudflare Workers with generous free tier
 - 🧠 **AI-Powered Image Intelligence** - Integration with OpenAI and Gemini for semantic analysis and intelligent image descriptions
 - 🖼️ **Smart Image Processing** - Browser-side compression supporting JPEG, WebP, and AVIF formats with automatic thumbnail generation
 - 💾 **Edge-Native Storage** - Cloudflare R2 object storage with D1 database for optimal performance and global edge deployment
 - 📊 **Complete EXIF Management** - Full extraction and display of image metadata including camera settings, location data, and timestamps
 - 🏷️ **Flexible Tagging System** - Organize photos with custom tags and filter by categories
+- 📑 **Sorting & Pagination** - Sort photos and smooth pagination
 - 🎨 **Modern User Experience** - Responsive design with smooth view transitions and beautiful UI components
 - 🔐 **Secure Admin Panel** - Built-in authentication system for secure photo management and uploads
 
@@ -121,6 +123,7 @@ The project includes a `.github/workflows/migrate.yml` file. You can:
 
 > [!NOTE]
 > This project adopts a separated migration management strategy:
+>
 > - Local Development: Migrations are automatically managed by NuxtHub and recorded in the `_hub_migrations` table.
 > - Cloud Deployment: Migrations are managed via GitHub Actions using Wrangler, also recorded in the `_hub_migrations` table, but with an additional `.sql` file extension compared to NuxtHub migrations.
 > - Note: Do not manually run Wrangler migration commands during local development, as those files lack the `.sql` suffix.
@@ -168,12 +171,14 @@ For users who previously deployed using NuxtHub Admin:
    - R2 bucket name
 
 3. **Update `wrangler.jsonc`** with your existing resources:
+
    ```jsonc
    {
      "d1_databases": [{ "binding": "DB", "database_id": "YOUR_EXISTING_DATABASE_ID" }],
      "r2_buckets": [{ "binding": "BLOB", "bucket_name": "YOUR_EXISTING_BUCKET_NAME" }]
    }
    ```
+
    Commit and push this change.
 
 4. **Create new Worker** by following steps 2-3 in the deployment section above
@@ -186,12 +191,13 @@ For users who previously deployed using NuxtHub Admin:
 
 ### Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `NUXT_ADMIN_PASSWORD` | Yes | `admin` | Admin panel access password |
-| `NUXT_SESSION_PASSWORD` | Yes | -- | Session encryption key(at least 32 characters) |
-| `NUXT_PUBLIC_TITLE` | No | `Exif Gallery Nuxt` | Application title |
-| `NUXT_PUBLIC_DESCRIPTION` | No | `A full-stack photo album solution that integrates AI intelligent processing, browser image compression, and other functions` | Application description |
+| Variable                              | Required | Default                                                                                                                       | Description                                                             |
+| ------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `NUXT_ADMIN_PASSWORD`                 | Yes      | `admin`                                                                                                                       | Admin panel access password                                             |
+| `NUXT_SESSION_PASSWORD`               | Yes      | --                                                                                                                            | Session encryption key(at least 32 characters)                          |
+| `NUXT_PUBLIC_TITLE`                   | No       | `Exif Gallery Nuxt`                                                                                                           | Application title                                                       |
+| `NUXT_PUBLIC_DESCRIPTION`             | No       | `A full-stack photo album solution that integrates AI intelligent processing, browser image compression, and other functions` | Application description                                                 |
+| `NUXT_PUBLIC_DISABLE_3D_CARD_DEFAULT` | No       | `false`                                                                                                                       | Whether to disable 3D card effect by default (set to `true` to disable) |
 
 ## 📁 Project Structure
 

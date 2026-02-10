@@ -1,7 +1,6 @@
 export interface InfiniteState {
   photos: Ref<IPhoto[]>
   hasMore: Ref<boolean>
-  loading: Ref<boolean>
 }
 
 export const usePhotosStore = defineStore('photos', () => {

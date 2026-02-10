@@ -20,19 +20,33 @@ async function clearSession() {
   await clear().finally(() => disconnect.value = false)
   navigateTo(localePath('/admin/login'))
 }
+
+const route = useRoute()
+
+const idle = useState('p-idle', () => true)
+const showSortButton = ref(false)
+const fullscreen = ref(false)
+watch(() => route.name, (routeName) => {
+  const name = String(routeName).split('_')[0]
+  showSortButton.value = !!name && ['index', 'grid', 'admin'].includes(name)
+  fullscreen.value = !!name && ['p-id'].includes(name)
+}, { immediate: true })
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 h-12 w-full flex items-center justify-between border-b border-dashed bg-background/60 px-4 backdrop-blur">
-    <nav div class="min-w-0 flex flex-auto items-center justify-items-start">
-      <NuxtLinkLocale to="/" class="me-2 min-w-0 flex-[0_1_auto] truncate font-medium">
-        <Logo class="size-6 text-primary op-80" />
+  <header
+    class="px-4 border-b border-dashed bg-background/60 flex h-12 w-full transition-transform duration-300 items-center top-0 justify-between z-50 backdrop-blur"
+    :class="fullscreen ? (idle ? 'absolute -translate-y-full op-0 pointer-events-none' : 'absolute translate-y-0 op-100') : 'sticky'"
+  >
+    <nav div class="flex flex-auto min-w-0 items-center justify-items-start">
+      <NuxtLinkLocale to="/" class="font-medium me-2 flex-[0_1_auto] min-w-0 truncate">
+        <Logo class="text-primary op-80 size-6" />
       </NuxtLinkLocale>
-      <NuxtLinkLocale to="/" class="min-w-0 flex-[0_1_auto] truncate font-medium lt-md:hidden">
+      <NuxtLinkLocale to="/" class="font-medium flex-[0_1_auto] min-w-0 truncate lt-md:hidden">
         {{ config.public.title || $t('title') }}
       </NuxtLinkLocale>
     </nav>
-    <nav div class="min-w-0 flex flex-auto items-center justify-items-start">
+    <nav div class="flex flex-auto min-w-0 items-center justify-items-start">
       <TooltipIconButton
         v-for="link in links"
         :key="link.to"
@@ -40,7 +54,7 @@ async function clearSession() {
       >
         <NuxtLink
           :to="link.to"
-          class="h-7 flex items-center justify-center rounded-md px-4 text-center text-sm font-medium transition-colors data-[active=true]:bg-muted data-[active=true]:text-primary hover:text-primary"
+          class="text-sm font-medium px-4 text-center rounded-md flex h-7 transition-colors items-center justify-center data-[active=true]:text-primary hover:text-primary data-[active=true]:bg-muted"
           :data-active="path === link.to"
         >
           <div :class="link.icon" />
@@ -49,18 +63,21 @@ async function clearSession() {
     </nav>
     <nav class="flex items-center">
       <NuxtLinkLocale to="https://github.com/wiidede/exif-gallery-nuxt" target="_blank">
-        <TooltipIconButton :label="$t('header.github')" icon="i-lucide-github op-50" />
+        <TooltipIconButton :label="$t('header.github')" icon="i-lucide-github op-50" variant="ghost" size="icon" />
       </NuxtLinkLocale>
       <NuxtLinkLocale v-if="showAdmin" to="/admin">
-        <TooltipIconButton :label="$t('header.admin')" icon="i-lucide-server-cog op-50" />
+        <TooltipIconButton :label="$t('header.admin')" icon="i-lucide-server-cog op-50" variant="ghost" size="icon" />
       </NuxtLinkLocale>
       <TooltipIconButton
         v-if="showLogout && loggedIn"
         :loading="disconnect"
         :label="$t('header.logout')"
-        icon="i-lucide-power text-red"
+        icon="i-lucide-power text-destructive"
+        variant="ghost"
+        size="icon"
         @click="clearSession()"
       />
+      <HeaderSortMenu v-if="showSortButton" />
       <ThemePopover class="flex-shrink-0" />
     </nav>
   </header>

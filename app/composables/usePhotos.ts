@@ -1,9 +1,11 @@
-export function usePhotosInfinite(params?: {
+export function usePhotosInfinite(params?: MaybeRef<{
   hidden?: boolean
   orderBy?: string
   order?: string
   tag?: string
-}, limit = 12): {
+  camera?: string
+  lens?: string
+}>, limit = 12): {
   photos: Ref<IPhoto[]>
   hasMore: Ref<boolean>
   loadMore: () => Promise<void>
@@ -11,56 +13,75 @@ export function usePhotosInfinite(params?: {
 } {
   const pStore = usePhotosStore()
   const photosStore = pStore.photosStore
-  const key = JSON.stringify(params)
+  const paramsValue = computed(() => toValue(params))
+  const key = computed(() => JSON.stringify(paramsValue.value))
 
-  if (!photosStore.has(key)) {
-    photosStore.set(key, {
-      photos: ref([]),
-      hasMore: ref(true),
-      loading: ref(false),
-    })
+  function getOrCreateState(k: string): InfiniteState {
+    if (!photosStore.has(k)) {
+      photosStore.set(k, {
+        photos: ref([]),
+        hasMore: ref(true),
+      })
+    }
+    return photosStore.get(k)!
   }
 
-  const state = photosStore.get(key)!
+  // 当前 state，使用 shallowRef 避免深度响应
+  const state = shallowRef<InfiniteState>(getOrCreateState(key.value))
 
+  // loading 不在 store 中，避免 SSR 状态污染
+  const loading = ref(false)
   const error = ref()
 
   const loadMore = async () => {
-    if (state.loading.value || !state.hasMore.value)
+    if (loading.value || !state.value.hasMore.value)
       return
 
     error.value = undefined
 
     try {
-      state.loading.value = true
+      loading.value = true
       const response = await $fetch('/api/photos', {
         params: {
-          ...params,
+          ...paramsValue.value,
           limit,
-          offset: state.photos.value.length,
+          offset: state.value.photos.value.length,
         },
       })
 
       if (response.data.length < limit) {
-        state.hasMore.value = false
+        state.value.hasMore.value = false
       }
 
-      state.photos.value.push(...response.data.map(deserializePhoto))
+      state.value.photos.value.push(...response.data.map(deserializePhoto))
     }
     catch (err: any) {
       console.error(err)
       toast.error('An error occurred', { description: err?.data?.message || err?.message || 'Failed to get photos' })
     }
     finally {
-      state.loading.value = false
+      loading.value = false
     }
   }
 
+  // 监听 key 变化（排序变化），切换 state 并加载数据
+  watch(key, (newKey) => {
+    state.value = getOrCreateState(newKey)
+    if (state.value.photos.value.length === 0)
+      loadMore()
+  })
+
   return {
-    photos: state.photos,
-    hasMore: state.hasMore,
+    photos: computed({
+      get: () => state.value.photos.value,
+      set: (v) => { state.value.photos.value = v },
+    }),
+    hasMore: computed({
+      get: () => state.value.hasMore.value,
+      set: (v) => { state.value.hasMore.value = v },
+    }),
     loadMore,
-    loading: state.loading,
+    loading,
   }
 }
 

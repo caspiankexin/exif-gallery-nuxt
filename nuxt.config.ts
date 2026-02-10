@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@unocss/nuxt',
+    '@nuxtjs/device',
     'nuxt-auth-utils',
   ],
   hub: {
@@ -40,6 +41,11 @@ export default defineNuxtConfig({
       prefix: '',
       extensions: ['vue'],
     },
+    {
+      path: '~/components/ui-pro',
+      prefix: '',
+      extensions: ['vue'],
+    },
     '~/components',
   ],
   imports: {
@@ -61,6 +67,7 @@ export default defineNuxtConfig({
     public: {
       title: process.env.NUXT_PUBLIC_TITLE,
       description: process.env.NUXT_PUBLIC_DESCRIPTION,
+      disable3DCardDefault: process.env.NUXT_PUBLIC_DISABLE_3D_CARD_DEFAULT,
     },
   },
   i18n: {

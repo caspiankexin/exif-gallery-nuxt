@@ -48,13 +48,13 @@ function selectProvider(providerId: string) {
 
 <template>
   <div
-    class="grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-2"
+    class="gap-x-4 gap-y-2 grid grid-cols-1 md:grid-cols-2"
     :class="{ 'opacity-50 pointer-events-none': disabled }"
   >
     <UploadConfigCard>
       <template #status>
         <ItemStatus :label="$t('compression_config.title')" :checked="uploadConfig.enableCompression" />
-        <Card v-if="uploadConfig.enableCompression" class="flex flex-wrap gap-2 px-2">
+        <Card v-if="uploadConfig.enableCompression" class="px-2 py-0 flex flex-row gap-2">
           <ItemStatus :label="$t('compression_config.jpeg')" :checked="uploadConfig.formats.jpeg" />
           <ItemStatus :label="$t('compression_config.webp')" :checked="uploadConfig.formats.webp" />
           <ItemStatus :label="$t('compression_config.avif')" :checked="uploadConfig.formats.avif" />
@@ -63,7 +63,7 @@ function selectProvider(providerId: string) {
       </template>
       <template #config>
         <Collapsible :open="uploadConfig.enableCompression">
-          <div class="flex items-center space-x-2">
+          <div class="flex gap-2 items-center">
             <Checkbox
               id="enable-compression"
               v-model="uploadConfig.enableCompression"
@@ -82,21 +82,21 @@ function selectProvider(providerId: string) {
             <div class="pl-6">
               <Label class="text-muted-foreground font-medium">{{ $t('compression_config.formats') }}</Label>
               <div class="flex flex-wrap gap-2">
-                <div class="flex items-center space-x-2">
+                <div class="flex gap-2 items-center">
                   <Checkbox
                     id="formats-jpeg"
                     v-model="uploadConfig.formats.jpeg"
                   />
                   <Label for="formats-jpeg">{{ $t('compression_config.jpeg') }}</Label>
                 </div>
-                <div class="flex items-center space-x-2">
+                <div class="flex gap-2 items-center">
                   <Checkbox
                     id="formats-webp"
                     v-model="uploadConfig.formats.webp"
                   />
                   <Label for="formats-webp">{{ $t('compression_config.webp') }}</Label>
                 </div>
-                <div class="flex items-center space-x-2">
+                <div class="flex gap-2 items-center">
                   <Checkbox
                     id="formats-avif"
                     v-model="uploadConfig.formats.avif"
@@ -115,7 +115,7 @@ function selectProvider(providerId: string) {
             </div>
           </CollapsibleContent>
         </Collapsible>
-        <div class="flex items-center space-x-2">
+        <div class="flex gap-2 items-center">
           <Checkbox
             id="formats-thumbnail"
             v-model="uploadConfig.formats.thumbnail"
@@ -139,7 +139,7 @@ function selectProvider(providerId: string) {
       </template>
       <template #config>
         <Collapsible :open="aiConfig.enabled">
-          <div class="flex items-center space-x-2">
+          <div class="flex gap-2 items-center">
             <Checkbox
               id="enable-ai"
               v-model="aiConfig.enabled"
@@ -147,7 +147,7 @@ function selectProvider(providerId: string) {
             <Label for="enable-ai">{{ $t('ai_config.enable') }}</Label>
           </div>
           <CollapsibleContent>
-            <div class="ml-6 space-y-4">
+            <div class="ml-6 flex flex-col gap-4">
               <!-- 供应商列表 -->
               <div>
                 <div class="mb-2 flex items-center justify-between">
@@ -155,38 +155,38 @@ function selectProvider(providerId: string) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    class="h-7 text-xs"
+                    class="text-xs h-7"
                     @click="openAddProviderDialog"
                   >
-                    <div class="i-lucide-plus mr-1" />
+                    <div class="i-lucide-plus" />
                     {{ $t('ai_config.add_provider') }}
                   </Button>
                 </div>
-                <div class="space-y-2">
+                <div class="flex flex-col gap-2">
                   <div
                     v-for="provider in Object.values(aiConfig.providers)"
                     :key="provider.id"
-                    class="group flex cursor-pointer items-center justify-between gap-2 border rounded-lg p-2 transition-colors hover:bg-muted/50"
+                    class="group p-2 border rounded-lg flex gap-2 cursor-pointer transition-colors items-center justify-between hover:bg-muted/50"
                     :class="{ 'border-primary bg-primary/5': aiConfig.selectedProviderId === provider.id }"
                     @click="selectProvider(provider.id)"
                   >
-                    <div class="min-w-0 flex flex-1 items-center gap-2">
+                    <div class="flex flex-1 gap-2 min-w-0 items-center">
                       <!-- shadcn 风格的 radio 样式 -->
                       <div
-                        class="relative h-4 w-4 flex shrink-0 items-center justify-center border border-primary rounded-full text-primary ring-offset-background transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring"
+                        class="text-primary border border-primary rounded-full flex shrink-0 h-4 w-4 ring-offset-background transition-all items-center justify-center relative focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       >
                         <div
                           v-if="aiConfig.selectedProviderId === provider.id"
                           class="flex items-center justify-center"
                         >
-                          <div class="h-2 w-2 rounded-full bg-primary" />
+                          <div class="rounded-full bg-primary h-2 w-2" />
                         </div>
                       </div>
-                      <div class="min-w-0 flex-1">
-                        <div class="truncate text-sm font-medium">
+                      <div class="flex-1 min-w-0">
+                        <div class="text-sm font-medium truncate">
                           {{ provider.name }}
                         </div>
-                        <div class="truncate text-xs text-muted-foreground">
+                        <div class="text-xs text-muted-foreground truncate">
                           {{ provider.type }}
                           <span v-if="provider.model" class="ml-1">• {{ formatModelName(provider.model) }}</span>
                         </div>
@@ -199,18 +199,19 @@ function selectProvider(providerId: string) {
                         {{ $t('ai_config.selected') }}
                       </Badge>
                     </div>
-                    <div class="flex items-center gap-1" @click.stop>
+                    <div class="flex gap-1 items-center" @click.stop>
                       <TooltipIconButton
                         icon="i-lucide-pencil"
                         :label="$t('ai_config.edit')"
-                        size="sm"
+                        size="icon"
+                        variant="ghost"
                         @click="openEditProviderDialog(provider)"
                       />
                       <TooltipIconButton
                         v-if="provider.id !== 'openai' && provider.id !== 'gemini'"
                         icon="i-lucide-trash-2"
                         :label="$t('ai_config.delete')"
-                        size="sm"
+                        size="icon"
                         variant="destructive"
                         @click="removeProvider(provider.id)"
                       />
